@@ -19,7 +19,7 @@ that Propane can parse it.
 CURRENT STATUS
 --------------
 
-You get a room listing of rooms you can't join!
+You get a room listing of rooms you can join but can't chat inside of!
 
 
 QUICK START

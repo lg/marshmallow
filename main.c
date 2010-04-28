@@ -17,6 +17,9 @@
 // - Need to implement "proper" auth
 
 char *template_room_list = NULL;
+char *template_room = NULL;
+
+char *static_sprockets_js = NULL;
 
 void http_unknown_handler(struct evhttp_request *req, void *arg) {
   struct evbuffer *evbuf = evbuffer_new();
@@ -42,6 +45,31 @@ void http_root_handler(struct evhttp_request *req, void *arg) {
   evhttp_send_reply(req, HTTP_OK, "Found", evbuf);
   evbuffer_free(evbuf);
 }
+
+// Handle /room/295440/
+void http_room_handler(struct evhttp_request *req, void *arg) {
+  struct evbuffer *evbuf = evbuffer_new();
+  
+  // Use the "template" to output to the user. Obviously we'll need an
+  // actual template parser in the future since this is uber stat.
+  evbuffer_add_printf(evbuf, "%s", template_room);
+  
+  evhttp_send_reply(req, HTTP_OK, "OK", evbuf);
+  evbuffer_free(evbuf);
+}
+
+// Handle /sprockets.js
+void http_sprockets_handler(struct evhttp_request *req, void *arg) {
+  struct evbuffer *evbuf = evbuffer_new();
+  
+  // Use the "template" to output to the user. Obviously we'll need an
+  // actual template parser in the future since this is uber stat.
+  evbuffer_add_printf(evbuf, "%s", static_sprockets_js);
+  
+  evhttp_send_reply(req, HTTP_OK, "OK", evbuf);
+  evbuffer_free(evbuf);
+}
+
 
 char *read_template(char *filename) {
   FILE *file = fopen(filename, "r");
@@ -80,10 +108,16 @@ int main(void) {
   // Set up handlers for the different urls
   evhttp_set_gencb(server, http_unknown_handler, NULL);
   evhttp_set_cb(server, "/", http_root_handler, NULL);
+  evhttp_set_cb(server, "/room/295440/", http_room_handler, NULL);
+  
+  evhttp_set_cb(server, "/sprockets.js", http_sprockets_handler, NULL);
   
   // Read in templates
   fprintf(stderr, "Reading templates...\n");
   template_room_list = read_template("templates/room_list.tpl");
+  template_room = read_template("templates/room.tpl");
+  
+  static_sprockets_js = read_template("statics/sprockets.js");
   
   // Open the flood gates
   fprintf(stderr, "Listening for connections on port 80...\n");
