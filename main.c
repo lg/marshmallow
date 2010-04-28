@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <event.h>
 #include <evhttp.h>
@@ -23,7 +24,7 @@ void http_root_handler(struct evhttp_request *req, void *arg) {
   
   // Use the "template" to output to the user. Obviously we'll need an
   // actual template parser in the future since this is uber stat.
-  evbuffer_add_printf(evbuf, "%s", template_room_list);
+  evbuffer_add(evbuf, template_room_list, strlen((const char*)template_room_list));
   
   evhttp_add_header(req->output_headers, "Location", "/login");
   evhttp_send_reply(req, HTTP_OK, "Found", evbuf);
@@ -35,7 +36,7 @@ void http_statics_handler(struct evhttp_request *req, void *arg) {
   
   // The static content is available in the arg param as was created
   // with add_static earlier.
-  evbuffer_add_printf(evbuf, "%s", (char *)arg);
+  evbuffer_add(evbuf, (char *)arg, strlen((const char*)arg));
   
   evhttp_send_reply(req, HTTP_OK, "OK", evbuf);
   evbuffer_free(evbuf);
@@ -59,7 +60,10 @@ char *read_file(char *filename) {
   fseek(file, 0, SEEK_SET);
   char *file_data = malloc(size);
   
-  // Read exactly the file size of data
+  if (size == 0)
+    (*file_data) = 0x00;
+  
+  // Read exactly the file size of data  
   if (size > 0 && !fread(file_data, size, 1, file)) {
     fprintf(stderr, "Error reading file: %s\n", filename);
     exit(1);
