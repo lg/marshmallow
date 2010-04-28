@@ -26,8 +26,8 @@ QUICK START
 -----------
 
 - Make sure you have the libevent libs installed from `http://www.monkey.org/~provos/libevent/`
-- To build, use: `gcc main.c -levent -fasm-blocks`
-- To run, use: `sudo ./a.out`. Sudo is needed to bind on port 80
+- To build, use: `make`
+- To run, use: `sudo ./marshmallow`. Sudo is needed to bind on port 80
 - To prepare, add `127.0.0.1 marshmallow.campfirenow.com` to your `/etc/hosts` file
 - To use, install and open Propane and add `marshmallow.campfirenow.com` to it
 

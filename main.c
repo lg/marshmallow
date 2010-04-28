@@ -1,6 +1,6 @@
 // Marshmallow, an opensource Campfire server, by Larry Gadea trivex@gmail.com
 //
-// To build and run, use: gcc main.c -levent -fasm-blocks && sudo ./a.out
+// To build and run, use: make && sudo ./marshmallow
 //
 // To connect, set "127.0.0.1 marshmallow.campfirenow.com" in your /etc/hosts file
 // and connect to marshmallow.campfirenow.com in Propane.
