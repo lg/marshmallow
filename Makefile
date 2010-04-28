@@ -1,11 +1,14 @@
 CC=gcc
 CARGS=-c -fasm-blocks -Wall --std=c99
-LIBS=-levent
+LIBS=-levent -lsqlite3
 
-marshmallow: main.o
+marshmallow: main.o datastore.o
 	$(CC) $(LIBS) -o $@ $^
 
-main.o: main.c main.h
+main.o: main.c
+	$(CC) $(CARGS) -c -o $@ $<
+
+datastore.o: datastore.c datastore.h
 	$(CC) $(CARGS) -c -o $@ $<
 
 .PHONY: clean

@@ -12,7 +12,10 @@
 #include <event.h>
 #include <evhttp.h>
 
-#include "main.h"
+#include "datastore.h"
+
+char *template_room_list = NULL;
+struct evhttp *server = NULL;
 
 // - Need http://127.0.0.1 as a constant
 // - Need to actually parse templates as templates and not just read em in
@@ -52,11 +55,6 @@ void http_statics_handler(struct evhttp_request *req, void *arg) {
   evbuffer_free(evbuf);
 }
 
-void add_static(struct evhttp *server, char *uri, char *local_path) {
-  char *data = read_file(local_path);
-  evhttp_set_cb(server, uri, http_statics_handler, (void*)data);
-}
-
 char *read_file(char *filename) {
   FILE *file = fopen(filename, "r");
   if (!file) {
@@ -83,16 +81,39 @@ char *read_file(char *filename) {
   return file_data;
 }
 
+void add_static(struct evhttp *server, char *uri, char *local_path) {
+  char *data = read_file(local_path);
+  evhttp_set_cb(server, uri, http_statics_handler, (void*)data);
+}
+
+void sigint(int i) {
+  fprintf(stderr, "Shutting down!\n");
+  
+  mds_shutdown();
+  
+  if (server)
+    evhttp_free(server);
+  
+  exit(0);
+}
+
 int main(void) {
-  printf("Marshmallow 0.01 by Larry Gadea (trivex@gmail.com)\n\n");
+  fprintf(stderr, "Marshmallow 0.01 by Larry Gadea (trivex@gmail.com)\n\n");
+
+  // Trap CTRL+C for shutdown
+  if (signal(SIGINT, SIG_IGN) != SIG_IGN)
+    signal(SIGINT, sigint);
 
   // Start the server
   event_init();
-  struct evhttp *server = evhttp_start("0.0.0.0", 80);
+  server = evhttp_start("0.0.0.0", 80);
   if (!server) {
     fprintf(stderr, "Failed to start server! This is probably because you didn't run as sudo and as such port 80 isn't available.\n");
     exit(1);
   }
+
+  // Initialize the datastore
+  mds_init();
   
   // Set up handlers for the different urls
   evhttp_set_cb(server, "/", http_root_handler, NULL);
@@ -119,9 +140,10 @@ int main(void) {
   add_static(server, "/stylesheets/screen.css", "statics/stylesheets/screen.css");
   
   // Open the flood gates
-  fprintf(stderr, "Listening for connections on port 80...\n");
+  fprintf(stderr, "\nListening for connections on port 80...\n");
   event_dispatch();
 
-  exit(0);
+  // Should never really get here, but if so, shutdown
+  sigint(0);
 }
 
