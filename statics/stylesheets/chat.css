@@ -1,0 +1,202 @@
+div.Left{
+  margin-top: 20px;
+}
+
+div.bottom {
+  padding-bottom: 78px;
+}
+
+div#system_notice {
+  display: none;
+}
+
+div#Wrapper {
+  padding-top: 38px;
+}
+
+div#Header {
+  border-bottom: 12px solid #e5e5e5;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin-bottom: 12px;
+  z-index: 2;
+}
+
+body.chat.with_open_bar div#Header {
+  z-index: 0;
+  top: 20px;
+}
+
+div#Sidebar {
+  position: fixed;
+  top: 55px;
+  right: 20px;
+	font-family: "lucida grande", verdana, arial, helvetica, sans-serif;
+  width: 27%;
+  text-align: left;
+}
+
+body.chat.with_open_bar div#Sidebar {
+  top: 75px;
+}
+
+body.chat.with_open_bar div#open_bar {
+  z-index: 99;
+  position: fixed;
+  width: 100%;
+  left: 0;
+}
+
+div#Sidebar form#search_form table {
+  width: 100%;
+}
+
+div#Sidebar form#search_form table td.term,
+div#Sidebar form#search_form table td.term input#term {
+  width: 100%;
+}
+
+div#Sidebar form#search_form table td.term {
+  padding-right: 10px;
+}
+
+
+.Left .bottom {
+  margin-bottom: 0;
+}
+
+table.chat td.body div {
+  overflow: hidden;
+  float: left;
+}
+
+/*-------------------------------------------------
+SPEAK
+-------------------------------------------------*/
+
+div.speak {
+  width: 70%;  /* FF: need to select a width equal to 100% - scrollbar width to fix the display issue when autocompleting a name. Can we leave this out altogether? */
+  position: fixed;
+  bottom: -10px;
+  text-align: left;
+  padding: 18px 20px;
+  padding-bottom: 15px;
+  margin: 10px 0;
+  background: url(/images/speak-bg.png) top repeat-x;
+}
+
+
+div.speak form {
+  margin: 0;
+  padding: 0;
+}
+
+div.speak td {
+  vertical-align: top;
+  padding-right: 10px;
+}
+
+#input, #upload_form {
+  width: 385px; /* FF: changing this to 250px fixes the display issue when opening the upload form. Can we leave this out altogether? */
+  height: 50px;
+}
+
+textarea#input {
+  resize: none; /* disables textarea drag resize in webkit browsers */
+}
+
+#chat_controls {
+  font-size: 11px;
+}
+
+#chat_controls input {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#chat_controls a {
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.guest_user #locking_control,
+.guest_user #topic .edit_topic a {
+  display: none;
+}
+
+#logout_link {
+  display: none;
+}
+
+/*
+.guest_user #logout_link {
+  display: inline;
+}
+*/
+
+div#SidebarTop {
+  position: relative;
+}
+
+div#SidebarTop #sounds {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  width: 18px;
+  height: 15px;
+}
+
+div#SidebarTop #sounds a:hover {
+  background: none;
+}
+
+div#SidebarTop #sounds a img {
+  margin: 0;
+  width: 18px;
+  height: 15px;
+  border: none;
+}
+
+div#SidebarTop h1 {
+  margin-right: 32px;
+}
+
+
+/* DISABLED FOR DELAYED REDIRECT */
+
+body.disabled #Tabs,
+body.disabled #Sidebar #sounds,
+body.disabled #Sidebar .edit_topic,
+body.disabled #Sidebar .participants,
+body.disabled #Sidebar #guest_access,
+body.disabled #Sidebar #files,
+body.disabled input,
+body.disabled textarea {
+  visibility: hidden;
+}
+
+body.disabled #chat_form {
+  display: none;
+}
+
+#timeout_alert {
+  display: none;
+}
+
+#timeout_alert h2 {
+  color: red;
+  margin: 0;
+}
+
+body.disabled #timeout_alert {
+  display: block;
+}
+
+/*-------------------------------------------------
+Propane
+-------------------------------------------------*/
+
+body.propane div#open_bar {
+  display: none !important;
+}

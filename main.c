@@ -38,6 +38,16 @@ void http_statics_handler(struct evhttp_request *req, void *arg) {
   // with add_static earlier.
   evbuffer_add(evbuf, (char *)arg, strlen((const char*)arg));
   
+  // Set the Content-Type
+  if (strstr(req->uri, ".css") != NULL) 
+    evhttp_add_header(req->output_headers, "Content-Type", "text/css");
+  if (strstr(req->uri, ".gif") != NULL) 
+    evhttp_add_header(req->output_headers, "Content-Type", "image/gif");
+  if (strstr(req->uri, ".png") != NULL) 
+    evhttp_add_header(req->output_headers, "Content-Type", "image/png");
+  if (strstr(req->uri, ".js") != NULL) 
+    evhttp_add_header(req->output_headers, "Content-Type", "text/javascript");
+  
   evhttp_send_reply(req, HTTP_OK, "OK", evbuf);
   evbuffer_free(evbuf);
 }
@@ -96,6 +106,17 @@ int main(void) {
   
   fprintf(stderr, "Preparing statics...\n");
   add_static(server, "/sprockets.js", "statics/sprockets.js");
+  add_static(server, "/images/bottom-bg.gif", "statics/images/bottom-bg.gif");
+  add_static(server, "/images/dots-white.gif", "statics/images/dots-white.gif");
+  add_static(server, "/images/progress_bar.gif", "statics/images/progress_bar.gif");
+  add_static(server, "/images/right-bg.gif", "statics/images/right-bg.gif");
+  add_static(server, "/images/sound-on.gif", "statics/images/sound-on.gif");
+  add_static(server, "/images/speak-bg.png", "statics/images/speak-bg.png");
+  add_static(server, "/stylesheets/blue.css", "statics/stylesheets/blue.css");
+  add_static(server, "/stylesheets/chat.css", "statics/stylesheets/chat.css");
+  add_static(server, "/stylesheets/open_bar.css", "statics/stylesheets/open_bar.css");
+  add_static(server, "/stylesheets/print.css", "statics/stylesheets/print.css");
+  add_static(server, "/stylesheets/screen.css", "statics/stylesheets/screen.css");
   
   // Open the flood gates
   fprintf(stderr, "Listening for connections on port 80...\n");

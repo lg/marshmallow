@@ -1,0 +1,232 @@
+/*-------------------------------------------------
+OPEN ID BAR
+-------------------------------------------------*/
+
+div#open_bar {
+  background: #000;
+  position: relative;
+  text-align: left;
+  font-size: 10px;
+  z-index: 99;
+}
+
+div#open_bar div.message {
+  padding: 5px 30px;
+  color: #999;
+}
+
+div#open_bar ul {
+  margin: 0;
+  padding: 0;
+}
+
+div#open_bar li {
+  list-style-type: none;
+  line-height: normal;
+  padding: 0;
+}
+
+div#open_bar ul.menus {
+  padding: 0 25px;
+}
+
+div#open_bar li.menu {
+  float: left;
+  position: relative;
+  margin-right: 4px;
+}
+
+div#open_bar li.menu a {
+  position: relative;
+  display: block;
+  padding: 4px 5px;
+  font-size: 10px;
+  color: #999;
+  text-decoration: none;
+}
+
+div#open_bar li.menu a:hover {
+  background: #000;
+}
+
+div#open_bar li.menu a.on {
+  color: #ddd;
+}
+
+div#open_bar li.menu a.on:hover {
+  color: #ddd;
+}
+
+div#open_bar li.menu a.account:hover {
+  color: #fff;
+}
+
+div#open_bar li.menu a.current_account:hover {
+  color: #999;
+}
+
+/* Promo ads in open bar */
+
+div#open_bar li.menu a.dimmed,
+div#open_bar li.menu a.dimmed:hover {
+  color: #555;
+}
+
+div#open_bar li.menu div.items {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  width: 200px;
+}
+
+div#open_bar li.hover div.items {
+  display: block;
+}
+
+div#open_bar li.menu ul.items {
+  padding: 0 0 6px;
+  background: #000;
+  border-bottom-left-radius: 6px;
+  -webkit-border-bottom-left-radius: 6px;
+  -moz-border-radius-bottomleft: 6px;
+  border-bottom-right-radius: 6px;
+  -webkit-border-bottom-right-radius: 6px;
+  -moz-border-radius-bottomright: 6px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+div#open_bar li.item {
+  background: none;
+  border-top: 1px solid #222;
+}
+
+div#open_bar li.item a {
+  padding-left: 10px;
+}
+
+div#open_bar li.menu div.promo {
+  width: 230px;
+}
+
+div#open_bar li.menu div.promo li.item {
+  padding: 10px 12px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 16px;
+  display: block;
+  clear: both;
+}
+
+div#open_bar div.promo li.item h3 {
+  font-size: 13px;
+  margin: 0 0 10px;
+  font-weight: normal;
+  color: #999;
+}
+
+div#open_bar div.promo li.item p {
+  margin: 0 0 15px;
+}
+
+div#open_bar div.promo li.item p span {
+  color: #66bb50;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+div#open_bar div.promo li.item strong {
+  color: #fff;
+  font-size: 16px;
+}
+
+div#open_bar div.promo li.item sup {
+  font-size: 10px;
+  color: #999;
+}
+
+div#open_bar div.promo li.item a,
+div#open_bar div.promo li.item a:hover {
+  padding: 0;
+  color: inherit;
+  margin: 0;
+  text-decoration: none;
+  font-size: inherit;
+  background: none;
+  display: inline;
+  position: static;
+}
+
+div#open_bar div.promo li.item p.more {
+  display: block;
+  padding: 5px 0;
+  border-top: 1px dashed #1F3440;
+  margin: 0;
+}
+
+div#open_bar div.promo li.item p.more a {
+  font-size: 13px;
+  color: #7cceff;
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 2px solid #fff;
+  margin: 0;
+  padding: 1px;  
+}
+
+div#open_bar div.promo li.item p.more a:hover {
+  background: #7cceff;
+  color: #000;
+  border-color: #7cceff;
+}
+
+div#open_bar div.promo li.item img {
+  float: left;
+  margin-right: 5px;
+  border: none;
+}
+
+/* IE */
+
+div#open_bar li.menu div.items {
+  _background: none;
+}
+
+div#open_bar li.menu ul.items {
+  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/signal_id/open_bar_bg.png',sizingMethod='scale');
+}
+
+*:first-child+html div#open_bar li.menu ul.items {
+  padding: 0 3px 3px 0;
+  background: none;
+  background: url(/images/signal_id/open_bar_bg.png) repeat;
+}
+
+*:first-child+html div#open_bar li.item {
+  background: #000;
+}
+
+*:first-child+html div#open_bar ul.items li.last {
+  padding-bottom: 5px;
+}
+
+div#open_bar ul.menus,
+div#open_bar li.menu div.items,
+div#open_bar li.menu ul.items,
+div#open_bar li.item,
+div#open_bar li.item a {
+  zoom: 100%;
+}
+
+body.with_open_bar div#open_bar {
+  _position: absolute;
+  _top: 0;
+  _left: 0;
+}
+
+body.with_open_bar div#Header {
+  _margin-bottom: 20px;
+  _top: 20px;
+}

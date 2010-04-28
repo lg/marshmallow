@@ -7,21 +7,21 @@ FINDING OUT WHAT PROPANE'S REGEXPS ARE. YIKES PPL. -->
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Marshmallow</title>
-  <link href="/stylesheets/screen.css?1271970221" media="all" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/open_bar.css?1272323126" media="all" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/open_bar.css" media="all" rel="stylesheet" type="text/css" />
     <!--[if lte IE 6]>
       <style type="text/css">
-        @import url("/stylesheets/screen-ie.css?1271970221");
+        @import url("/stylesheets/screen-ie.css");
       </style>
     <![endif]-->
     <!--[if IE 7]>
       <style type="text/css">
-        @import url("/stylesheets/screen-ie-7.css?1271970221");
+        @import url("/stylesheets/screen-ie-7.css");
       </style>
     <![endif]-->
   
-  <link href="/stylesheets/print.css?1271970221" media="print" rel="stylesheet" type="text/css" />
-  <link href="/stylesheets/blue.css?1271970221" media="screen" rel="stylesheet" title="Theme" type="text/css" />
+  <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/blue.css" media="screen" rel="stylesheet" title="Theme" type="text/css" />
   <script src="/sprockets.js" type="text/javascript"></script>
   
 </head>
