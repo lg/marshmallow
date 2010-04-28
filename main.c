@@ -101,7 +101,7 @@ int main(void) {
   event_init();
   struct evhttp *server = evhttp_start("0.0.0.0", 80);
   if (!server) {
-    fprintf(stderr, "Failed to start server!");
+    fprintf(stderr, "Failed to start server! This is probably because you didn't run as sudo and as such port 80 isn't available.\n");
     exit(1);
   }
   
