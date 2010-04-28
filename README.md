@@ -21,7 +21,7 @@ CURRENT STATUS
 
 You get a room listing of rooms you can join but can only talk to yourself in.
 
-![Current Status](current_status.png)
+![Current Status](http://github.com/lg/marshmallow/raw/master/current_status.png)
 
 
 QUICK START
