@@ -58,12 +58,18 @@ void http_room_handler(struct evhttp_request *req, void *arg) {
   evbuffer_free(evbuf);
 }
 
+// Handle /room/295440/speak
+void http_speak_handler(struct evhttp_request *req, void *arg) {
+  struct evbuffer *evbuf = evbuffer_new();  
+  evhttp_send_reply(req, HTTP_OK, "OK", evbuf);
+  evbuffer_free(evbuf);
+}
+
 // Handle /sprockets.js
 void http_sprockets_handler(struct evhttp_request *req, void *arg) {
   struct evbuffer *evbuf = evbuffer_new();
   
-  // Use the "template" to output to the user. Obviously we'll need an
-  // actual template parser in the future since this is uber stat.
+  // Write the static file to the user
   evbuffer_add_printf(evbuf, "%s", static_sprockets_js);
   
   evhttp_send_reply(req, HTTP_OK, "OK", evbuf);
@@ -109,6 +115,7 @@ int main(void) {
   evhttp_set_gencb(server, http_unknown_handler, NULL);
   evhttp_set_cb(server, "/", http_root_handler, NULL);
   evhttp_set_cb(server, "/room/295440/", http_room_handler, NULL);
+  evhttp_set_cb(server, "/room/295440/speak", http_speak_handler, NULL);
   
   evhttp_set_cb(server, "/sprockets.js", http_sprockets_handler, NULL);
   
