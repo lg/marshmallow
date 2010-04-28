@@ -3,9 +3,9 @@ CARGS=-c -fasm-blocks -Wall --std=c99
 LIBS=-levent
 
 marshmallow: main.o
-	$(CC) $(LIBS) -o $@ $<
+	$(CC) $(LIBS) -o $@ $^
 
-main.o: main.c
+main.o: main.c main.h
 	$(CC) $(CARGS) -c -o $@ $<
 
 .PHONY: clean
