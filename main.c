@@ -13,21 +13,26 @@
 #include <evhttp.h>
 
 #include "datastore.h"
+#include "simple_templates.h"
 
 char *template_room_list = NULL;
 struct evhttp *server = NULL;
 
 // - Need http://127.0.0.1 as a constant
-// - Need to actually parse templates as templates and not just read em in
-// - Need to clean up handlers to use a common generator
 // - Need to implement "proper" auth
 
 void http_root_handler(struct evhttp_request *req, void *arg) {
   struct evbuffer *evbuf = evbuffer_new();
-  
-  // Use the "template" to output to the user. Obviously we'll need an
-  // actual template parser in the future since this is uber stat.
-  evbuffer_add(evbuf, template_room_list, strlen((const char*)template_room_list));
+
+  string_string_hash vals = string_string_hash_new();
+  string_string_hash_set(&vals, "domain_name", "Marshmallow");
+  string_string_hash_set(&vals, "room_id", "295440");
+  string_string_hash_set(&vals, "room_name", "Room Awesome");
+  string_string_hash_set(&vals, "room_users", "Unoccupied");
+  string_string_hash_set(&vals, "domain", "marshmallow.campfirenow.com");
+  prestring out = st_apply(template_room_list, vals);
+
+  evbuffer_add(evbuf, out, strlen((const char*)out));
   
   evhttp_add_header(req->output_headers, "Location", "/login");
   evhttp_send_reply(req, HTTP_OK, "Found", evbuf);
@@ -55,34 +60,8 @@ void http_statics_handler(struct evhttp_request *req, void *arg) {
   evbuffer_free(evbuf);
 }
 
-char *read_file(char *filename) {
-  FILE *file = fopen(filename, "r");
-  if (!file) {
-    fprintf(stderr, "Unable to open file: %s\n", filename);
-    exit(1);
-  }
-
-  // Get the file size to allocate the right memory size for it
-  fseek(file, 0, SEEK_END);
-  long size = ftell(file);
-  fseek(file, 0, SEEK_SET);
-  char *file_data = malloc(size);
-  
-  if (size == 0)
-    (*file_data) = 0x00;
-  
-  // Read exactly the file size of data  
-  if (size > 0 && !fread(file_data, size, 1, file)) {
-    fprintf(stderr, "Error reading file: %s\n", filename);
-    exit(1);
-  }
-
-  fclose(file);
-  return file_data;
-}
-
-void add_static(struct evhttp *server, char *uri, char *local_path) {
-  char *data = read_file(local_path);
+void add_text_static(struct evhttp *server, char *uri, char *local_path) {
+  char *data = read_text_file(local_path);
   evhttp_set_cb(server, uri, http_statics_handler, (void*)data);
 }
 
@@ -117,27 +96,27 @@ int main(void) {
   
   // Set up handlers for the different urls
   evhttp_set_cb(server, "/", http_root_handler, NULL);
-  add_static(server, "/room/295440/", "templates/room.tpl");
-  add_static(server, "/room/295440/speak", "statics/blank");
-  evhttp_set_gencb(server, http_statics_handler, (void *)read_file("statics/blank"));
+  add_text_static(server, "/room/295440/", "templates/room.tpl");
+  add_text_static(server, "/room/295440/speak", "statics/blank");
+  evhttp_set_gencb(server, http_statics_handler, (void *)read_text_file("statics/blank"));
 
   // Read in templates
   fprintf(stderr, "Reading templates...\n");
-  template_room_list = read_file("templates/room_list.tpl");
+  template_room_list = read_text_file("templates/room_list.tpl");
 
   fprintf(stderr, "Preparing statics...\n");
-  add_static(server, "/sprockets.js", "statics/sprockets.js");
-  add_static(server, "/images/bottom-bg.gif", "statics/images/bottom-bg.gif");
-  add_static(server, "/images/dots-white.gif", "statics/images/dots-white.gif");
-  add_static(server, "/images/progress_bar.gif", "statics/images/progress_bar.gif");
-  add_static(server, "/images/right-bg.gif", "statics/images/right-bg.gif");
-  add_static(server, "/images/sound-on.gif", "statics/images/sound-on.gif");
-  add_static(server, "/images/speak-bg.png", "statics/images/speak-bg.png");
-  add_static(server, "/stylesheets/blue.css", "statics/stylesheets/blue.css");
-  add_static(server, "/stylesheets/chat.css", "statics/stylesheets/chat.css");
-  add_static(server, "/stylesheets/open_bar.css", "statics/stylesheets/open_bar.css");
-  add_static(server, "/stylesheets/print.css", "statics/stylesheets/print.css");
-  add_static(server, "/stylesheets/screen.css", "statics/stylesheets/screen.css");
+  add_text_static(server, "/sprockets.js", "statics/sprockets.js");
+  //add_static(server, "/images/bottom-bg.gif", "statics/images/bottom-bg.gif");
+  //add_static(server, "/images/dots-white.gif", "statics/images/dots-white.gif");
+  //add_static(server, "/images/progress_bar.gif", "statics/images/progress_bar.gif");
+  //add_static(server, "/images/right-bg.gif", "statics/images/right-bg.gif");
+  //add_static(server, "/images/sound-on.gif", "statics/images/sound-on.gif");
+  //add_static(server, "/images/speak-bg.png", "statics/images/speak-bg.png");
+  add_text_static(server, "/stylesheets/blue.css", "statics/stylesheets/blue.css");
+  add_text_static(server, "/stylesheets/chat.css", "statics/stylesheets/chat.css");
+  add_text_static(server, "/stylesheets/open_bar.css", "statics/stylesheets/open_bar.css");
+  add_text_static(server, "/stylesheets/print.css", "statics/stylesheets/print.css");
+  add_text_static(server, "/stylesheets/screen.css", "statics/stylesheets/screen.css");
   
   // Open the flood gates
   fprintf(stderr, "\nListening for connections on port 80...\n");

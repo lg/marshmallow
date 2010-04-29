@@ -6,7 +6,7 @@ FINDING OUT WHAT PROPANE'S REGEXPS ARE. YIKES PPL. -->
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Marshmallow</title>
+  <title>{{domain}}</title>
   <link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/open_bar.css" media="all" rel="stylesheet" type="text/css" />
     <!--[if lte IE 6]>
@@ -39,28 +39,28 @@ FINDING OUT WHAT PROPANE'S REGEXPS ARE. YIKES PPL. -->
     <div id="Header">
       <div id="Tabs">
         <ul id="MainTabs">
-    <li><a href="http://marshmallow.campfirenow.com/" class="current">Lobby</a></li>
+    <li><a href="http://{{domain}}/" class="current">Lobby</a></li>
 
     
 
     
 
 
-    <li><a href="http://marshmallow.campfirenow.com/files+transcripts" class="" style="margin-left: 8px">Files, Transcripts &amp; Search</a></li>
+    <li><a href="http://{{domain}}/files+transcripts" class="" style="margin-left: 8px">Files, Transcripts &amp; Search</a></li>
 
     <!-- <li><a href="/conferences" class="" style="margin-left: 8px">Conference Calls</a></li> -->
     
-    <li style="float: right;" class="logout"><a href="http://marshmallow.campfirenow.com/logout">Sign out</a></li>
+    <li style="float: right;" class="logout"><a href="http://{{domain}}/logout">Sign out</a></li>
     <li style="float: right" class="logout"><a href="/member/edit">My info</a></li>
 
       <li style="float: right">
-      <a href="http://marshmallow.campfirenow.com/account/settings" class="">Settings</a>
+      <a href="http://{{domain}}/account/settings" class="">Settings</a>
       </li>
       <li style="float: right">
-      <a href="http://marshmallow.campfirenow.com/subscription/manage" class="">Account</a>
+      <a href="http://{{domain}}/subscription/manage" class="">Account</a>
       </li>
       <li style="float: right">
-        <a href="http://marshmallow.campfirenow.com/account/people" class="">Users</a>
+        <a href="http://{{domain}}/account/people" class="">Users</a>
       </li>
 
 </ul>
@@ -80,7 +80,7 @@ FINDING OUT WHAT PROPANE'S REGEXPS ARE. YIKES PPL. -->
       
       <h1>
   <span><a class="admin toggle show_hide_toggler_new_room" href="#" id="create_room_link" onclick="$('new_room').showHide.toggle(); return false;">Create a new room</a></span>
-    Marshmallow
+    {{domain_name}}
 </h1>
 
 <div class="currentChatters">
@@ -96,7 +96,7 @@ FINDING OUT WHAT PROPANE'S REGEXPS ARE. YIKES PPL. -->
     </div>
     <div id="new_room_form_errors"></div>
     <div class="body">
-<form action="http://marshmallow.campfirenow.com/account/create/room?from=lobby" id="new_room_form" method="post" onsubmit="$(this).down('input[type=submit]').disable(); Element.hide('new_room_cancel_link'); new Ajax.Request('http://marshmallow.campfirenow.com/account/create/room?from=lobby', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;"><div style="margin:0;padding:0;display:inline"><input name="authenticity_token" type="hidden" value="Pc6jXOF4yFWjlPhcFhuOmIzVAKpuPQVxB9j/B/+J2VY=" /></div>      <h3>Name the room</h3>
+<form action="http://{{domain}}/account/create/room?from=lobby" id="new_room_form" method="post" onsubmit="$(this).down('input[type=submit]').disable(); Element.hide('new_room_cancel_link'); new Ajax.Request('http://{{domain}}/account/create/room?from=lobby', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;"><div style="margin:0;padding:0;display:inline"><input name="authenticity_token" type="hidden" value="Pc6jXOF4yFWjlPhcFhuOmIzVAKpuPQVxB9j/B/+J2VY=" /></div>      <h3>Name the room</h3>
       <p><input class="big expanded" id="room_name" name="room[name]" size="30" type="text" /></p>
       <h3 style="font-weight: normal;">Optional: Give the room a topic or description</h3>
       <p><textarea class="expanded" cols="40" id="room_topic" name="room[topic]" rows="20"></textarea></p>
@@ -132,14 +132,14 @@ new ShowHide('new_room', {"beforeToggle":function(showHide) {Form.reset('new_roo
       </div>
     </td>
 
-    <td style="vertical-align: top; width: 33%;"><div id="room_295440" class="room available">
+    <td style="vertical-align: top; width: 33%;"><div id="room_{{room_id}}" class="room available">
   <h2>
 
-      <a href="http://marshmallow.campfirenow.com/room/295440">Room 1</a>
+      <a href="http://{{domain}}/room/{{room_id}}">{{room_name}}</a>
   </h2>
 
   <div class="updated">
-        Unoccupied
+        {{room_users}}
   </div>
     <p></p>
 
