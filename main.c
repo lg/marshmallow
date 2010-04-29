@@ -124,7 +124,7 @@ int main(void) {
   // Read in templates
   fprintf(stderr, "Reading templates...\n");
   template_room_list = read_file("templates/room_list.tpl");
-  
+
   fprintf(stderr, "Preparing statics...\n");
   add_static(server, "/sprockets.js", "statics/sprockets.js");
   add_static(server, "/images/bottom-bg.gif", "statics/images/bottom-bg.gif");
