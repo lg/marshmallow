@@ -15,8 +15,8 @@
 #include "datastore.h"
 #include "simple_templates.h"
 
-char *template_room_list = NULL;
 struct evhttp *server = NULL;
+sized_array template_room_list;
 
 // - Need http://127.0.0.1 as a constant
 // - Need to implement "proper" auth
@@ -24,16 +24,16 @@ struct evhttp *server = NULL;
 void http_root_handler(struct evhttp_request *req, void *arg) {
   struct evbuffer *evbuf = evbuffer_new();
 
-  string_string_hash vals = string_string_hash_new();
-  string_string_hash_set(&vals, "domain_name", "Marshmallow");
-  string_string_hash_set(&vals, "room_id", "295440");
-  string_string_hash_set(&vals, "room_name", "Room Awesome");
-  string_string_hash_set(&vals, "room_users", "Unoccupied");
-  string_string_hash_set(&vals, "domain", "marshmallow.campfirenow.com");
-  prestring out = st_apply(template_room_list, vals);
+  char *values[] = {"marshmallow.campfirenow.com", "Marshmallow", "295440", "Room Awesomez", "Unoccupied"};
 
-  evbuffer_add(evbuf, out, strlen((const char*)out));
-  
+  for (int i = 0; i < template_room_list.size; i++) {
+    if (i % 2 == 0) {   // even
+      evbuffer_add(evbuf, template_room_list.items[i], template_room_list.sizes[i]);
+    } else {            // odd
+      evbuffer_add(evbuf, values[(size_t)template_room_list.items[i]], strlen(values[(size_t)template_room_list.items[i]]));
+    }
+  }
+
   evhttp_add_header(req->output_headers, "Location", "/login");
   evhttp_send_reply(req, HTTP_OK, "Found", evbuf);
   evbuffer_free(evbuf);
@@ -102,7 +102,7 @@ int main(void) {
 
   // Read in templates
   fprintf(stderr, "Reading templates...\n");
-  template_room_list = read_text_file("templates/room_list.tpl");
+  template_room_list = st_prepare("templates/room_list.tpl");
 
   fprintf(stderr, "Preparing statics...\n");
   add_text_static(server, "/sprockets.js", "statics/sprockets.js");

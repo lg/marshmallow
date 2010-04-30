@@ -1,0 +1,6 @@
+room_list.tpl
+  0 - domain
+  1 - domain_name
+  2 - room_id
+  3 - room_name
+  4 - room_users

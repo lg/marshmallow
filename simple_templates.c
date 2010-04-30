@@ -4,28 +4,6 @@
 
 #include "simple_templates.h"
 
-DEFINE_HASH(string_string, char*, char*, hash_string, string_equal)
-
-// A string hashing function, borrowed from Emacs 19.34
-int hash_string(const char* str, const int hash_size) {
-  int hash = 0;
-  int i;
-
-  for (i=0; str[i] != '\0'; i++) {
-	  char c = str[i];
-	  if (c >= 0140)
-      c -= 40;
-	  
-	  hash = (hash<<3) + (hash>>28) + c;
-  }
-  
-  return (hash & 07777777777) % hash_size;
-}
-
-int string_equal(const char* str1, const char* str2) {
-  return strcmp(str1, str2) == 0;
-}
-
 char *read_text_file(char *filename) {
   FILE *file = fopen(filename, "r");
   if (!file) {
@@ -51,14 +29,29 @@ char *read_text_file(char *filename) {
   return file_data;
 }
 
-// TODO: do not return a prestring, but rather a char array
-prestring st_apply(char *template, string_string_hash values) {
-  prestring out = string_new("");
-  char *max = template + strlen(template);
+sized_array st_prepare(char *template_file) {
+  char *template = read_text_file(template_file);
   
-  // Restart and parse out data
+  // Count total items
+  sized_array items;
+  items.size = 0;
+  
   char *x = template;
   char *last_x = template;
+  while ((x = strstr(last_x, "{{"))) {
+    items.size++;
+    last_x = x + 2;
+  }
+  items.size = (items.size * 2) + 1;
+  items.items = malloc(sizeof(char*) * items.size);
+  items.sizes = malloc(sizeof(size_t) * items.size);
+  
+  // Loop through template and puts pointers to sections in
+  int cur_item = 0;
+  char *max = template + strlen(template);
+  last_x = template;
+  
+  x = template;
   while (x < max) {
     if (!(x = strstr(last_x, "{{"))) 
       x = max;
@@ -68,25 +61,24 @@ prestring st_apply(char *template, string_string_hash values) {
     char *item = malloc(len + 1);
     memcpy(item, last_x, len);
     item[len] = 0x00;
-    string_cat(out, item);
+    items.sizes[cur_item] = len;
+    items.items[cur_item++] = item;
     
-    // Insert the replaced text
+    // Insert the index for the replacement array
     char *y = strstr(x, "}}");
     if (y > 0) {
       len = y - x - 2;
       char *variable = malloc(len + 1);
       memcpy(variable, x + 2, len);
       variable[len] = 0x00;
-      
-      // Lookup the variable
-      char **replace_with = string_string_hash_get(values, variable);
-      if (*replace_with != NULL) {
-        string_cat(out, *replace_with);
-      }
+   
+      items.sizes[cur_item] = 0;
+      items.items[cur_item++] = (char *)atol(variable);
+      free(variable);
     }
     
     last_x = y + 2;
   }
 
-  return out;
+  return items;
 }
